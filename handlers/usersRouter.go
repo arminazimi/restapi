@@ -15,8 +15,10 @@ func UsersRouter(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			usersGetAll(w, r)
+			return
 		case http.MethodPost:
 			userPostOne(w, r)
+			return
 		default:
 			postError(w, http.StatusMethodNotAllowed)
 			return
@@ -28,16 +30,20 @@ func UsersRouter(w http.ResponseWriter, r *http.Request) {
 		postError(w, http.StatusNotFound)
 	}
 
-	// id := bson.ObjectIdHex(path)
+	id := bson.ObjectIdHex(path)
 
 	switch r.Method {
 	case http.MethodGet:
+		userGetOne(w, r, id)
 		return
 	case http.MethodPut:
+		userPutOne(w, r, id)
 		return
 	case http.MethodPatch:
+		userPatchOne(w, r, id)
 		return
 	case http.MethodDelete:
+		userDeleteOne(w, r, id)
 		return
 	default:
 		postError(w, http.StatusMethodNotAllowed)
